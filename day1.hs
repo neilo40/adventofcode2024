@@ -5,7 +5,7 @@ main :: IO()
 main = do
     -- really need to understand the IO monad and it's taint
 
-    ls <- readLines "day1.input"
+    ls <- readLines "day1.input" -- what is <- here and how is it different from let?  seems to remove the IO bit...
 
     -- part a    
     print (sum (distance (zipLines ls)))
