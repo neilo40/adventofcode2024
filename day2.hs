@@ -21,21 +21,16 @@ countIncOrDec nns = sum [1 | ns <- nns, incOrDec ns]
 
 -- is sequence increasing or decreasing
 incOrDec :: [Int] -> Bool
-incOrDec ns = increase ns || decrease ns
+incOrDec ns = increase ns deltaPlus || increase ns deltaMinus
 
--- is sequence increasing?
-increase :: [Int] -> Bool
-increase [_] = True
-increase (x:xs) = deltaPlus [x, head xs] && increase xs 
+-- is sequence changing by allowed amounts?
+increase :: [Int] -> ([Int] -> Bool) -> Bool
+increase [_] _ = True
+increase (x:xs) deltaFunc = deltaFunc [x, head xs] && increase xs deltaFunc
 
 -- check how much values changed by.  must be increasing by 1,2, or 3 only
 deltaPlus :: [Int] -> Bool
 deltaPlus ns = delta ns > 0 && delta ns < 4
-
--- is sequence decreasing?
-decrease :: [Int] -> Bool
-decrease [_] = True
-decrease (x:xs) = deltaMinus [x, head xs] && decrease xs
 
 -- check how much values changed by.  must be decreasing by 1,2, or 3 only
 deltaMinus :: [Int] -> Bool
