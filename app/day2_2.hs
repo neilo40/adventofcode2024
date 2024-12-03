@@ -1,6 +1,6 @@
 main :: IO()
 main = do
-    ls <- readLines "day2.input"
+    ls <- readLines "app/day2.input"
     print (countIncOrDec (numerifyLines ls))
 
 -- read all lines from file into list
@@ -28,6 +28,7 @@ incOrDec ns = increase ns [] False || decrease ns [] False
 -- takes list of numbers left to eval, previously evaluated nums, and whether to allow further failures
 increase :: [Int] -> [Int] -> Bool -> Bool
 increase [_] _ _ = True
+increase [] _ _ = True
 increase (x:xs) _ True = deltaPlus [x, head xs] && increase xs [] True
 -- if deltaPlus fails, try both alternatives (remove first or second of the pair) and continue, disallowing any more removals
 increase (x:xs) prevs False = (deltaPlus [x, head xs] && increase xs (prevs ++ [x]) False) || increase (prevs ++ [x] ++ tail xs) [] True || increase (prevs ++ xs) [] True
@@ -39,6 +40,7 @@ deltaPlus ns = delta ns > 0 && delta ns < 4
 -- is sequence decreasing?
 decrease :: [Int] -> [Int] -> Bool -> Bool
 decrease [_] _ _ = True
+decrease [] _ _ = True
 decrease (x:xs) _ True = deltaMinus [x, head xs] && decrease xs [] True
 decrease (x:xs) prevs False = (deltaMinus [x, head xs] && decrease xs (prevs ++ [x]) False) || decrease (prevs ++ [x] ++ tail xs) [] True || decrease (prevs ++ xs) [] True
 

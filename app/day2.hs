@@ -1,6 +1,6 @@
 main :: IO()
 main = do
-    ls <- readLines "day2.input"
+    ls <- readLines "app/day2.input"
     print (countIncOrDec (numerifyLines ls))
 
 -- read all lines from file into list
@@ -26,6 +26,7 @@ incOrDec ns = increase ns deltaPlus || increase ns deltaMinus
 -- is sequence changing by allowed amounts?
 increase :: [Int] -> ([Int] -> Bool) -> Bool
 increase [_] _ = True
+increase [] _ = True
 increase (x:xs) deltaFunc = deltaFunc [x, head xs] && increase xs deltaFunc
 
 -- check how much values changed by.  must be increasing by 1,2, or 3 only
