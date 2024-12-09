@@ -9,7 +9,7 @@ main = do
     let fm = allFrequencies ls (Point 0 0) Map.empty            -- locations of all antennas
     let combs = Map.map combinations fm                         -- combinations (pairs) between all antennas of same freq
     let pairs = Map.foldr (++) [] combs                         -- single list of all pairs for all freqs
-    let ans = [antinodes p | p <- pairs]                        -- all antinodes
+    let ans = map antinodes pairs                               -- all antinodes
     let validAns = [a | an <- ans, a <- an, isValidAntinode a]  -- filter antinodes that are out of bounds
     let unique = Set.fromList validAns                          -- remove duplicates
     print (length unique)
