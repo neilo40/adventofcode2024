@@ -1,14 +1,11 @@
 import Data.Char
-import Data.Maybe (catMaybes)
 
 main :: IO()
 main = do
     l <- readFile "app/day9.input"
     let diskmap = map digitToInt l
     let blocks = expand diskmap 0 0
-    let compacted = compact blocks 0 (length blocks-1)
-    let vals = catMaybes compacted
-    let cksum = checksum (zip vals [0..length vals])
+    let cksum = compact blocks 0 (length blocks-1) 0
     print cksum
 
 -- even digits are block lengths of files
@@ -22,25 +19,19 @@ expand (n:ns) idnum idx | even idx = replicate n (Just idnum) ++ expand ns (idnu
                         | odd idx = replicate n Nothing ++ expand ns idnum (idx+1)
                         | otherwise = []
 
--- cur list -> insert at -> remove from -> final list
-compact :: [Maybe Int] -> Int -> Int -> [Maybe Int]
-compact l insIdx remIdx | insIdx == remIdx = l
-                        | hasVal (l!!insIdx) = compact l (insIdx+1) remIdx                         -- skip insIdx forward until next Nothing
-                        | not (hasVal (l!!remIdx)) = compact l insIdx (remIdx-1)                   -- skip remIdx backwards until next Value
-                        | otherwise = compact (swapTwo insIdx remIdx l) insIdx remIdx              -- swap places and continue
+-- cur list -> insert at -> remove from -> running sum -> final sum
+compact :: [Maybe Int] -> Int -> Int -> Int -> Int
+compact l insIdx remIdx s | insIdx == remIdx = s+(insIdx * val (l!!insIdx))                                 -- when indexes are the same, we're done
+                          | hasVal (l!!insIdx) = compact l (insIdx+1) remIdx s+(insIdx * val (l!!insIdx))   -- skip insIdx forward until next Nothing, adding as we go
+                          | not (hasVal (l!!remIdx)) = compact l insIdx (remIdx-1) s                        -- skip remIdx backwards until next Value
+                          | otherwise = compact l (insIdx+1) (remIdx-1) s+(insIdx * val (l!!remIdx))        -- add the product and continue
 
 -- Optional Int -> true if val or false if nothing
 hasVal :: Maybe Int -> Bool
 hasVal (Just _) = True
 hasVal Nothing = False
 
--- TODO: This is way too slow.  Just calculate the running sum as we go instead
--- list -> swap idx 1 -> swap idx 2 -> list
-swapTwo :: Int -> Int -> [Maybe Int] -> [Maybe Int]
-swapTwo f s xs = zipWith (\x y -> 
-    if x == f then xs !! s
-    else if x == s then xs !! f
-    else y) [0..] xs
-
-checksum :: [(Int,Int)] -> Int
-checksum vs = sum [uncurry (*) v | v <- vs]
+-- is there a better way to get value or else from optional?
+val :: Maybe Int -> Int
+val (Just v) = v
+val Nothing = 0 -- should never get here
