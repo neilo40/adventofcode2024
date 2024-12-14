@@ -163,3 +163,17 @@ executable day11
     build-depends:    base ^>=4.17.2.1
     hs-source-dirs:   app
     default-language: Haskell2010
+
+executable day13
+    import:           warnings
+    main-is:          day13.hs
+    build-depends:    base ^>=4.17.2.1, regex-tdfa
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+executable day14
+    import:           warnings
+    main-is:          day14.hs
+    build-depends:    base ^>=4.17.2.1, regex-tdfa
+    hs-source-dirs:   app
+    default-language: Haskell2010
