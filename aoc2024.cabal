@@ -198,3 +198,17 @@ executable day17_2
     build-depends:    base ^>=4.17.2.1
     hs-source-dirs:   app
     default-language: Haskell2010
+
+executable day19
+    import:           warnings
+    main-is:          day19.hs
+    build-depends:    base ^>=4.17.2.1
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+executable day19_2
+    import:           warnings
+    main-is:          day19_2.hs
+    build-depends:    base ^>=4.17.2.1
+    hs-source-dirs:   app
+    default-language: Haskell2010
