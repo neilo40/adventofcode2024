@@ -8,9 +8,9 @@ main = do
     let cksum = compact blocks 0 (length blocks-1) 0
     print cksum
 
--- even digits are block lengths of files
+-- even index digits are block lengths of files
 -- index of even is file ID
--- odd digits are free space
+-- odd index digits are free space
 -- 12345 => file id 0 len 1, 2 free, file id 1 len 3, 4 free, file id 2 len 5 
 -- input list -> ID -> cur index -> output list
 expand :: [Int] -> Int -> Int -> [Maybe Int]

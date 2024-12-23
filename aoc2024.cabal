@@ -157,6 +157,13 @@ executable day9
     hs-source-dirs:   app
     default-language: Haskell2010
 
+executable day9_2
+    import:           warnings
+    main-is:          day9_2.hs
+    build-depends:    base ^>=4.17.2.1
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
 executable day10
     import:           warnings
     main-is:          day10.hs
@@ -210,5 +217,12 @@ executable day19_2
     import:           warnings
     main-is:          day19_2.hs
     build-depends:    base ^>=4.17.2.1
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+executable day23
+    import:           warnings
+    main-is:          day23.hs
+    build-depends:    base ^>=4.17.2.1, containers
     hs-source-dirs:   app
     default-language: Haskell2010
